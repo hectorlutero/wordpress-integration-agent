@@ -55,3 +55,4 @@ To generate a CSV report of the last 30 days:
 - **Draft first**: When creating content, prefer `status='draft'` unless explicitly asked for 'publish'.
 - **Security**: Never log the `.env` contents or the `Authorization` headers.
 - **Cleanup**: If running tests or temporary tasks, use the `delete_post(post_id, force=True)` method.
+- **Visual Presentation**: When presenting data to the user, use **Bold** for emphasis, `Inline Code` for IDs/slugs, and tables or lists to ensure responses are "colorful" and easy to scan. Use emojis to differentiate between services (e.g., 📝 for Posts, 📊 for Analytics).
