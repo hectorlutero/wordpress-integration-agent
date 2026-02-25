@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     
     # Agent Logic
     LOG_LEVEL: str = "INFO"
-    REPORT_OUTPUT_DIR: str = "reports"
+    REPORT_OUTPUT_DIR: str = "data"
 
     @property
     def reports_path(self) -> Path:

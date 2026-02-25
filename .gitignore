@@ -31,9 +31,11 @@ ENV/
 !.env.example
 
 # Reports/Data
+data/
 reports/
 *.csv
 *.xlsx
+*.json
 
 # Logs
 *.log
