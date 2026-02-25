@@ -1,0 +1,16 @@
+# API Interaction
+httpx[http2]>=0.24.1
+
+# Configuration & Settings
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+
+# Data Analysis & Reporting
+pandas>=2.0.0
+openpyxl>=3.1.2
+
+# Analytics (GA4)
+google-analytics-data>=0.17.0
+
+# General Utilities
+rich>=13.4.2
