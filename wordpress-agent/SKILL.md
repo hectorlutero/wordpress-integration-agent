@@ -21,6 +21,7 @@ The skill leverages the following Python modules located in the `services/` dire
 - **ACFService (`services/acf_service.py`)**: Manipulation of Advanced Custom Fields.
 - **AnalyticsService (`services/analytics_service.py`)**: Fetching GA4 data.
 - **ReportService (`services/report_service.py`)**: Exporting data to CSV/Excel.
+- **MediaService (`services/media_service.py`)**: Processing and uploading images with automatic WebP conversion.
 
 ## Workflows
 
@@ -48,6 +49,16 @@ To update ACF fields, use the `ACFService`.
 To generate a CSV report of the last 30 days:
 1. Fetch data using `AnalyticsService`.
 2. Export using `ReportService`.
+
+### 4. Image Optimization & Upload
+To upload an image and automatically convert it to WebP:
+- **Example**:
+  ```python
+  from services.media_service import MediaService
+  service = MediaService(client)
+  result = await service.upload_image('local_photo.jpg', alt_text='Description')
+  attachment_id = result['id']
+  ```
 
 ## Guidelines
 

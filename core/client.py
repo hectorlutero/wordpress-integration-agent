@@ -60,6 +60,19 @@ class WPClient:
             response.raise_for_status()
             return response.json()
 
+    async def upload_media(self, filename: str, file_data: bytes, mime_type: str = "image/webp") -> Dict[str, Any]:
+        """
+        Uploads a binary file to the WordPress media library.
+        """
+        async with self._get_async_client() as client:
+            url = f"{self.api_url}/media"
+            # WordPress expects the file in the 'file' key of a multipart request
+            files = {'file': (filename, file_data, mime_type)}
+            logger.info(f"Uploading media: {filename} ({mime_type})")
+            response = await client.post(url, files=files)
+            response.raise_for_status()
+            return response.json()
+
     async def check_connection(self) -> bool:
         """
         Validates the connection and authentication with the WordPress site.
