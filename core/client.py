@@ -62,14 +62,18 @@ class WPClient:
 
     async def upload_media(self, filename: str, file_data: bytes, mime_type: str = "image/webp") -> Dict[str, Any]:
         """
-        Uploads a binary file to the WordPress media library.
+        Uploads a binary file to the WordPress media library using the 
+        preferred Raw Binary method.
         """
+        headers = self.headers.copy()
+        headers['Content-Type'] = mime_type
+        headers['Content-Disposition'] = f'attachment; filename={filename}'
+        
         async with self._get_async_client() as client:
+            client.headers.update(headers)
             url = f"{self.api_url}/media"
-            # WordPress expects the file in the 'file' key of a multipart request
-            files = {'file': (filename, file_data, mime_type)}
-            logger.info(f"Uploading media: {filename} ({mime_type})")
-            response = await client.post(url, files=files)
+            logger.info(f"Uploading media (Binary): {filename} ({mime_type})")
+            response = await client.post(url, content=file_data)
             response.raise_for_status()
             return response.json()
 
