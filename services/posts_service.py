@@ -4,7 +4,7 @@ from core.client import WPClient
 
 logger = logging.getLogger(__name__)
 
-class PostsSkill:
+class PostsService:
     """
     Skill for interacting with WordPress Posts and Pages.
     """

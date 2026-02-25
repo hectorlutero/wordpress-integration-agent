@@ -8,10 +8,10 @@ from rich.table import Table
 
 from core.config import settings, setup_logging
 from core.client import WPClient
-from skills.posts_skill import PostsSkill
-from skills.acf_skill import ACFSkill
-from skills.analytics_skill import AnalyticsSkill
-from skills.report_skill import ReportSkill
+from services.posts_service import PostsService
+from services.acf_service import ACFService
+from services.analytics_service import AnalyticsService
+from services.report_service import ReportService
 
 # Setup UI
 console = Console()
@@ -29,14 +29,14 @@ async def run_agent():
     # Initialize Client & Skills
     try:
         client = WPClient()
-        posts_skill = PostsSkill(client)
-        acf_skill = ACFSkill(client)
-        report_skill = ReportSkill()
+        posts_service = PostsService(client)
+        acf_service = ACFService(client)
+        report_service = ReportService()
         
         # Analytics is optional if not configured
-        analytics_skill = None
+        analytics_service = None
         if settings.GA4_PROPERTY_ID and settings.GA4_CREDENTIALS_PATH:
-            analytics_skill = AnalyticsSkill()
+            analytics_service = AnalyticsService()
     except Exception as e:
         console.print(f"[bold red]Error initializing skills:[/bold red] {e}")
         return
@@ -51,7 +51,7 @@ async def run_agent():
             
         elif command == "list":
             count = Prompt.ask("How many posts?", default="5")
-            posts = await posts_skill.list_posts(count=int(count))
+            posts = await posts_service.list_posts(count=int(count))
             
             table = Table(title="Recent Posts")
             table.add_column("ID", style="dim")
@@ -65,17 +65,17 @@ async def run_agent():
         elif command == "create":
             title = Prompt.ask("Post Title")
             content = Prompt.ask("Post Content")
-            post = await posts_skill.create_post(title, content, status="draft")
+            post = await posts_service.create_post(title, content, status="draft")
             console.print(f"[green]Draft created successfully! ID: {post['id']}[/green]")
 
         elif command == "analytics":
-            if not analytics_skill:
+            if not analytics_service:
                 console.print("[red]Analytics not configured. Please set GA4_PROPERTY_ID and credentials path in .env.[/red]")
                 continue
             
             days = Prompt.ask("Days to analyze?", default="30")
             console.print("[yellow]Fetching GA4 data...[/yellow]")
-            data = await analytics_skill.get_basic_report(days=int(days))
+            data = await analytics_service.get_basic_report(days=int(days))
             
             if data:
                 table = Table(title=f"Traffic Report (Last {days} Days)")
@@ -89,7 +89,7 @@ async def run_agent():
                 console.print(table)
                 
                 if Prompt.confirm("Export to CSV?"):
-                    path = report_skill.export_to_csv(data, "analytics_report")
+                    path = report_service.export_to_csv(data, "analytics_report")
                     console.print(f"[green]Report saved: {path}[/green]")
             else:
                 console.print("[red]No data retrieved.[/red]")

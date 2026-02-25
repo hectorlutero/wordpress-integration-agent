@@ -7,7 +7,7 @@ from core.config import settings
 
 logger = logging.getLogger(__name__)
 
-class ReportSkill:
+class ReportService:
     """
     Skill for generating reports (CSV, Excel) from agent data.
     """

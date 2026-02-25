@@ -4,7 +4,7 @@ from core.client import WPClient
 
 logger = logging.getLogger(__name__)
 
-class ACFSkill:
+class ACFService:
     """
     Skill for interacting with Advanced Custom Fields (ACF).
     Requires the ACF REST API toggle to be enabled in WordPress.
